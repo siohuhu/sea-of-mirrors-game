@@ -1,0 +1,140 @@
+# This .gitignore file should be placed at the root of your Unity project directory
+#
+# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
+
+# ====================================================================
+# 1. 獨立開發美術防線：強制排除或隔離區（不進 Git 也不進 LFS）
+# ====================================================================
+
+# 排除所有以波浪號結尾的原始美術原檔安全隔離區（2100x3600 PSD 與 3D 母帶的地方）
+**/_RawAssets~/
+
+# 排除 Mac 系統自動產生的垃圾隱藏檔（Wacom 驅動或 Finder 預覽）
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# 排除 Blender 自動產生的備份存檔
+*.blend1
+*.blend2
+
+# 排除 Maya 的臨時快取與崩潰回復檔
+*.swp
+*.ma.tmp
+*.mb.tmp
+
+# ====================================================================
+# 2. Unity 系統快取與打包防線（2026 實戰優化版）
+# ====================================================================
+
+# Android / iOS 高階編譯 (IL2CPP) 本地偵錯快取
+.utmp/
+
+# Unity 核心三大巨大快取（開啟專案時自動生成，絕對不進 Git）
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+
+# 本地編譯與打包輸出資料夾
+/[Bb]uild/
+/[Bb]uilds/
+
+# 系統日誌與個人編輯器局部排版設定（去斜線以完全防禦子模組）
+/[Ll]ogs/
+UserSettings/
+/[Uu]ser[Ss]ettings/
+
+# Unity 編輯器崩潰報告產生的本地硬體資訊
+sysinfo.txt
+
+# Unity Profiler 產生的效能快取資料夾
+/[Mm]emory[Cc]aptures/
+/[Rr]ecordings/
+
+# JetBrains Rider IDE 快取
+.idea/
+
+# ====================================================================
+# 3. IDE 程式碼編輯器與跨平台編譯快取（Visual Studio & Gradle）
+# ====================================================================
+
+# PC 端 Visual Studio 核心快取目錄
+.vs/
+
+# Android 打包工具 Gradle 快取目錄
+.gradle/
+
+# 專案編譯過渡暫存
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+/[Ll]ogs/*.log
+
+# 排除已被阻擋的偵錯檔所對應的無意義 .meta 衍生檔
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# ====================================================================
+# 4. 雲端與 Firebase 後端防線（安全防禦區）
+# ====================================================================
+
+# 排除 Firebase 本地端的暫存與憑證（避免帳密外洩）
+.firebase/
+*firebase-adminsdk*.json
+*secret*.json
+*.local
+
+# 排除 Firebase Crashlytics 每次打包自動產生的本地變動屬性檔
+crashlytics-build.properties
+
+# ==========================================
+# 5. Mac Operating System Tracking Files
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# 鏡之海總宇宙 - 終極核心過濾清單
+# ==========================================
+
+# 1. 精準攔截 Unity 子目錄下的巨型本地暫存（絕對不推，不然雲端會爆）
+/[鲍鲍]苍颈迟测/[尝尝][尝尝]/
+/[鲍鲍]苍颈迟测/[尝尝][尝尝][尝尝][尝尝][尝尝][尝尝]/
+/[鲍鲍]苍颈迟测/[尝尝][尝尝][尝尝]/
+/[鲍鲍]苍颈迟测/[尝尝][尝尝][尝尝][尝尝][尝尝][尝尝][尝尝][尝尝][尝尝]/
+/[鲍鲍]苍颈迟测/Build/
+/[鲍鲍]苍颈迟测/Recordings/
+
+# 2. 攔截打包輸出與編譯成果
+/[叠叠]耻颈濒诲/
+/[贰别虫辫辞谤迟]/
+
+# 3. 攔截 3D 美術軟體（Blender / Maya）的自動備份與暫存
+*.blend1
+*.blend2
+*.blend3
+.mayaSwatches/
+command-history
+
+# 4. 攔截 Mac 系統自作聰明的縮圖垃圾檔
+.DS_Store

@@ -23,29 +23,29 @@
 command-history
 
 # --------------------------------------------------------------------
-# 2. Unity 系統快取與打包防線（最外層與子目錄雙重防禦）
+# 2. Unity 系統快取與打包防線（已優化：完美支援子目錄架構）
 # --------------------------------------------------------------------
 # Android / iOS 高階編譯 (IL2CPP) 本地偵錯快取
-.utmp/
+**/[Uu]tmp/
 
-# Unity 核心三大巨大快取（開啟專案時自動生成，絕對不進 Git）
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
+# Unity 核心三大巨大快取（移除前端斜線，確保不論在哪個層級一律全面封鎖）
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
 
 # 本地編譯、打包輸出與導出資料夾
-/[Bb]uild/
-/[Bb]uilds/
-/[Ee]xport/
+[Bb]uild/
+[Bb]uilds/
+[Ee]xport/
 
 # 系統日誌與個人編輯器局部排版設定
-/[Ll]ogs/
-/[Ll]ogs/*.log
-/[Uu]ser[Ss]ettings/
+[Ll]ogs/
+*.log
+[Uu]ser[Ss]ettings/
 
 # Unity Profiler 與效能快取資料夾
-/[Mm]emory[Cc]aptures/
-/[Rr]ecordings/
+[Mm]emory[Cc]aptures/
+[Rr]ecordings/
 
 # Unity 編輯器崩潰報告產生的本地硬體資訊
 sysinfo.txt

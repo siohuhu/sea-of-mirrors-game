@@ -1,13 +1,8 @@
 #!/bin/bash
 
 # ====================================================================
-# 《鏡之海》總宇宙 - Google Drive 雙重防禦自動備份腳本 (含日期歷史檔)
+# 《鏡之海》總宇宙 - Google Drive 雙重防禦自動備份腳本 (終極天羅地網版)
 # ====================================================================
-# 功能：
-#   1. 自動將外接硬碟的純淨資產，同步至 Google Drive 最新狀態。
-#   2. 同時在雲端獨立建立一個「當天日期」的歷史存檔（zip 壓縮），做到里程碑備份。
-#   3. 物理隔離 Library、Temp 等暫存毒瘤；_RawAssets~ 原始母帶保留進備份。
-#   4. 任何步驟失敗立即中斷，不會印出誤導性的「成功」訊息。
 
 set -e
 set -o pipefail
@@ -15,7 +10,7 @@ set -o pipefail
 # 1. 精準定義來源路徑
 SRC="/Volumes/SiohuhuDev/Projects/sea-of-mirrors-game"
 
-# 動態尋找 Google Drive 雲端硬碟掛載路徑（避免帳號 email 寫死失效）
+# 動態尋找 Google Drive 雲端硬碟掛載路徑
 GDRIVE_BASE=$(find "$HOME/Library/CloudStorage" -maxdepth 1 -name "GoogleDrive-*" 2>/dev/null | head -n 1)
 
 if [ -z "$GDRIVE_BASE" ]; then
@@ -24,19 +19,14 @@ if [ -z "$GDRIVE_BASE" ]; then
 fi
 
 DST_ROOT="$GDRIVE_BASE/我的雲端硬碟/SiohuhuDev 專案備份"
-
-# 自動獲取當天日期（格式例如：2026-06-18）
 TODAY=$(date '+%Y-%m-%d')
 
-# 定義「最新同步」與「當天歷史備份」的具體雲端路徑
 DST_LATEST="$DST_ROOT/最新同步_Latest"
 DST_HISTORY_DIR="$DST_ROOT/歷史備份_History"
 DST_HISTORY_ZIP="$DST_HISTORY_DIR/${TODAY}_鏡之海備份.zip"
 
-# 歷史備份只保留最近 N 份，避免雲端空間無限累積
 KEEP_HISTORY_COUNT=20
 
-# 2. 顯示備份啟動資訊
 echo "=================================================="
 echo "🚀 開始執行《鏡之海》雙重安全防禦備份..."
 echo "📅 備份時間: $(date '+%Y-%m-%d %H:%M:%S')"
@@ -45,36 +35,47 @@ echo "☁️ 最新同步目的地: $DST_LATEST"
 echo "⏳ 歷史時空節點目的地: $DST_HISTORY_ZIP"
 echo "=================================================="
 
-# 檢查來源資料夾是否存在
 if [ ! -d "$SRC" ]; then
   echo "❌ 錯誤：找不到來源資料夾！請檢查外接硬碟是否已正確連接。"
   exit 1
 fi
 
-# 確保雲端的目標目錄結構存在
 mkdir -p "$DST_LATEST"
 mkdir -p "$DST_HISTORY_DIR"
 
-# 3. 執行備份過濾盾牌（已優化：全面支援不限層級的子目錄過濾）
+# 3. 執行備份過濾盾牌（修正：同時封鎖「最頂層」與「子目錄深層」的暫存毒瘤）
 RSYNC_EXCLUDE_FLAGS=(
+  --exclude='Library/'
   --exclude='*/Library/'
+  --exclude='Temp/'
   --exclude='*/Temp/'
+  --exclude='Obj/'
   --exclude='*/Obj/'
+  --exclude='Build/'
   --exclude='*/Build/'
+  --exclude='Builds/'
   --exclude='*/Builds/'
+  --exclude='.git/'
   --exclude='*/.git/'
   --exclude='.DS_Store'
   --exclude='*.textClipping'
 )
 
-# zip 的排除語法：確保不論目錄塞在多深，只要路徑包含指定名稱就一律排除
+# zip 排除語法同步升級，確保壓縮檔內絕無垃圾
 ZIP_EXCLUDE_FLAGS=(
   -x '*/Library/*'
+  -x 'Library/*'
   -x '*/Temp/*'
+  -x 'Temp/*'
   -x '*/Obj/*'
+  -x 'Obj/*'
   -x '*/Build/*'
+  -x 'Build/*'
   -x '*/Builds/*'
+  -x 'Builds/*'
   -x '*/.git/*'
+  -x '.git/*'
+  -x '*.DS_Store'
   -x '*/.DS_Store'
   -x '*.textClipping'
 )
@@ -93,7 +94,6 @@ if [ -f "$DST_HISTORY_ZIP" ]; then
   rm -f "$DST_HISTORY_ZIP"
 fi
 
-# 進入來源上層目錄執行壓縮，確保 zip 內路徑乾淨（不含完整絕對路徑）
 (
   cd "$(dirname "$SRC")"
   zip -rq "$DST_HISTORY_ZIP" "$(basename "$SRC")" "${ZIP_EXCLUDE_FLAGS[@]}"
@@ -101,7 +101,7 @@ fi
 
 echo "✅ 歷史備份壓縮完成：$DST_HISTORY_ZIP"
 
-# 【防線三：清理過舊的歷史備份，只保留最近 N 份】
+# 【防線三：清理過舊的歷史備份】
 echo "--------------------------------------------------"
 echo "🧹 正在檢查並清理舊歷史備份（僅保留最近 $KEEP_HISTORY_COUNT 份）..."
 

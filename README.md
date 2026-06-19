@@ -1,3 +1,3 @@
 #  Sea of Mirrors Game
 
-Unity project repository.
+For Siohuhu Studio

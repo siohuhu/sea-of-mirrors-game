@@ -29,23 +29,23 @@ command-history
 **/[Uu]tmp/
 
 # Unity 核心三大巨大快取（移除前端斜線，確保不論在哪個層級一律全面封鎖）
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
 
 # 本地編譯、打包輸出與導出資料夾
-[Bb]uild/
-[Bb]uilds/
-[Ee]xport/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ee]xport/
 
 # 系統日誌與個人編輯器局部排版設定
-[Ll]ogs/
+/[Ll]ogs/
 *.log
-[Uu]ser[Ss]ettings/
+/[Uu]ser[Ss]ettings/
 
 # Unity Profiler 與效能快取資料夾
-[Mm]emory[Cc]aptures/
-[Rr]ecordings/
+/[Mm]emory[Cc]aptures/
+/[Rr]ecordings/
 
 # Unity 編輯器崩潰報告產生的本地硬體資訊
 sysinfo.txt

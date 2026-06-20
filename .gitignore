@@ -40,7 +40,7 @@ command-history
 
 # 系統日誌與個人編輯器局部排版設定
 /[Ll]ogs/
-*.log
+/[Ll]ogs/*.log
 /[Uu]ser[Ss]ettings/
 
 # Unity Profiler 與效能快取資料夾

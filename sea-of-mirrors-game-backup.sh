@@ -40,6 +40,17 @@ if [ ! -d "$SRC" ]; then
   exit 1
 fi
 
+# 安全閥：因為下方 rsync 使用 --delete，若來源資料夾異常地空
+# （例如硬碟掛載到一半、權限問題），要先擋下來，避免雲端內容被誤刪
+SRC_ITEM_COUNT=$(find "$SRC" -mindepth 1 -maxdepth 1 | wc -l | tr -d ' ')
+MIN_EXPECTED_ITEMS=5
+
+if [ "$SRC_ITEM_COUNT" -lt "$MIN_EXPECTED_ITEMS" ]; then
+  echo "❌ 錯誤：來源資料夾內容異常地少（僅 $SRC_ITEM_COUNT 項，預期至少 $MIN_EXPECTED_ITEMS 項）。"
+  echo "⚠️  可能是硬碟掛載不完整或讀取異常，已中止備份以避免 --delete 誤刪雲端資料。"
+  exit 1
+fi
+
 mkdir -p "$DST_LATEST"
 mkdir -p "$DST_HISTORY_DIR"
 
@@ -61,23 +72,23 @@ RSYNC_EXCLUDE_FLAGS=(
   --exclude='*.textClipping'
 )
 
-# zip 排除語法同步升級，確保壓縮檔內絕無垃圾
-ZIP_EXCLUDE_FLAGS=(
-  -x '*/Library/*'
-  -x 'Library/*'
-  -x '*/Temp/*'
-  -x 'Temp/*'
-  -x '*/Obj/*'
-  -x 'Obj/*'
-  -x '*/Build/*'
-  -x 'Build/*'
-  -x '*/Builds/*'
-  -x 'Builds/*'
-  -x '*/.git/*'
-  -x '.git/*'
-  -x '*.DS_Store'
-  -x '*/.DS_Store'
-  -x '*.textClipping'
+# zip 排除清單（單一 -x，後面接多個 pattern；新增規則只需加一行字串）
+ZIP_EXCLUDE_PATTERNS=(
+  '*/Library/*'
+  'Library/*'
+  '*/Temp/*'
+  'Temp/*'
+  '*/Obj/*'
+  'Obj/*'
+  '*/Build/*'
+  'Build/*'
+  '*/Builds/*'
+  'Builds/*'
+  '*/.git/*'
+  '.git/*'
+  '*.DS_Store'
+  '*/.DS_Store'
+  '*.textClipping'
 )
 
 # 【防線一：更新雲端最新狀態】
@@ -96,7 +107,7 @@ fi
 
 (
   cd "$(dirname "$SRC")"
-  zip -rq "$DST_HISTORY_ZIP" "$(basename "$SRC")" "${ZIP_EXCLUDE_FLAGS[@]}"
+  zip -rq "$DST_HISTORY_ZIP" "$(basename "$SRC")" -x "${ZIP_EXCLUDE_PATTERNS[@]}"
 )
 
 echo "✅ 歷史備份壓縮完成：$DST_HISTORY_ZIP"

@@ -14,13 +14,24 @@
 *.blend3
 *.blend4
 *.blend5
+*.blend@
+
+Blender_Temp/
 
 # Maya 的臨時快取、暫存與崩潰回復檔
+*.mb~
+*.ma~
 *.swp
 *.ma.tmp
 *.mb.tmp
 .mayaSwatches/
 command-history
+
+# Photoshop 超大圖層檔案
+# 正常情況下 PSD/PSB 應放在 _RawAssets~/ 隔離區內，已被上方規則排除
+# 若工作流程中可能存在隔離區以外的地方，取消下面註解作為最後防線
+# *.psd
+# *.psb
 
 # --------------------------------------------------------------------
 # 2. Unity 系統快取與打包防線（已優化：完美支援子目錄架構）
@@ -37,6 +48,14 @@ command-history
 /[Bb]uild/
 /[Bb]uilds/
 /[Ee]xport/
+
+# 手機平台打包輸出檔（即使未放在 Build/ 資料夾內也排除）
+*.apk
+*.aab
+*.ipa
+
+# Unity Addressables 系統產生的 建置輸出資料夾
+ServerData/
 
 # 系統日誌與個人編輯器局部排版設定
 /[Ll]ogs/
@@ -75,6 +94,9 @@ ExportedObj/
 *.opendb
 *.VC.db
 
+# VSCode
+.vscode/
+
 # 排除已被阻擋的偵錯檔所對應的無意義 .meta 衍生檔
 *.pidb.meta
 *.pdb.meta
@@ -101,3 +123,10 @@ crashlytics-build.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# --------------------------------------------------------------------
+# 6. Temporary
+# --------------------------------------------------------------------
+*.tmp
+*.bak
+*.old

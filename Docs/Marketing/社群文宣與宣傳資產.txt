@@ -1,0 +1,11 @@
+sea-of-mirrors-game/
+├── Assets/                        # Unity / 遊戲程式資產
+├── Packages/
+├── ProjectSettings/
+└── Docs/                          # 專案企劃與文宣文件
+    ├── GDD/                       # 設計文件 (含 22+1 卡牌對照表)
+    └── Marketing/                 # 📢 社群文宣與宣傳資產
+        ├── Brand_Identity/        # LOGO (透明底/霧氣版)、顏色規範
+        ├── Social_Posts/          # IG/X/TikTok 貼文圖卡、開發花絮檔
+        ├── Press_Kit/             # PressKit 媒體懶人包、遊戲簡介 (Markdown)
+        └── Captions_&_Templates/  # 社群對外文案範本、Hashtag 庫
